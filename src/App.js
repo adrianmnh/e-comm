@@ -11,13 +11,13 @@ import LoginSignup from './Pages/LoginSignup';
 function App() {
   return (
     <div className="App">
-			<HashRouter>
+			<HashRouter basename='/app'>
 			
 				<Navbar />
 
 				<Routes>
 					
-					<Route path='/' element={<Shop/>} />
+					<Route path='/' element={<Shop />} />
 					
 					<Route path='/mens' element={<ShopCategory category="mens"/>} />
 					
