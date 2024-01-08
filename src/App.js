@@ -1,7 +1,7 @@
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import { HashRouter, Routes, Route } from 'react-router-dom';
 import Shop from './Pages/Shop';
 import ShopCategory from './Pages/ShopCategory';
 import Product from './Pages/Product';
@@ -11,7 +11,7 @@ import LoginSignup from './Pages/LoginSignup';
 function App() {
   return (
     <div className="App">
-			<HashRouter basename='/app'>
+			<BrowserRouter>
 			
 				<Navbar />
 
@@ -37,7 +37,7 @@ function App() {
 				</Routes>
 			
 			
-			</HashRouter>
+			</BrowserRouter>
 
     </div>
   );
