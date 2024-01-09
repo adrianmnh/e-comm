@@ -8,6 +8,10 @@ import { Link, useLocation } from 'react-router-dom'
 const Navbar = () => {
 	const location = useLocation();
 	const [menu, setMenu] = useState("shop");
+	const linkStyle = {
+		textDecoration: 'none',
+		color: 'black'
+	};
 
 	useEffect(() => {
 		const path = location.pathname;
@@ -25,16 +29,18 @@ const Navbar = () => {
 	return (
 		<div className='navbar'>
 
-			<div className="navbar-logo">
-				<img src={logo} alt="" />
-				<p>SHOPPER</p>
-			</div>
+			<Link style={linkStyle} to='/'>
+				<div className="navbar-logo" onClick={() => { setMenu("shop") }}>
+						<img src={logo} alt="" />
+						<p>SHOPPER</p>
+				</div>
+			</Link>
 
 			<ul className="navbar-menu">
-				<li onClick={() => { setMenu("shop") }}><Link to='/'>Shop</Link> {menu === "shop" ? <hr /> : <></>}</li>
-				<li onClick={() => { setMenu("mens") }}><Link to='/mens'>Men</Link> {menu === "mens" ? <hr /> : <></>}</li>
-				<li onClick={() => { setMenu("womens") }}><Link to='/womens'>Women</Link> {menu === "womens" ? <hr /> : <></>}</li>
-				<li onClick={() => { setMenu("kids") }}><Link to='/kids'>Kids</Link> {menu === "kids" ? <hr /> : <></>}</li>
+				<li onClick={() => { setMenu("shop") }}><Link style={linkStyle} to='/'>Shop</Link> {menu === "shop" ? <hr /> : <></>}</li>
+				<li onClick={() => { setMenu("mens") }}><Link style={linkStyle} to='/mens'>Men</Link> {menu === "mens" ? <hr /> : <></>}</li>
+				<li onClick={() => { setMenu("womens") }}><Link style={linkStyle} to='/womens'>Women</Link> {menu === "womens" ? <hr /> : <></>}</li>
+				<li onClick={() => { setMenu("kids") }}><Link style={linkStyle} to='/kids'>Kids</Link> {menu === "kids" ? <hr /> : <></>}</li>
 			</ul>
 
 			<div className="navbar-login-cart">
