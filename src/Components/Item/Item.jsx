@@ -3,10 +3,12 @@ import './Item.css'
 import { Link } from 'react-router-dom'
 
 const Item = (props) => {
+	const snapToTop = () => {
+		window.scrollTo(0, 0)
+	}
 	return (
 		<div className="item">
-			<Link to={`/product/${props.id}`}><img src={props.image} alt="" /></Link>
-			{/* <Link to={`/product`}><img src={props.image} alt="" /></Link> */}
+			<Link to={`/product/${props.id}`}><img onClick={snapToTop} src={props.image} alt="" /></Link>
 			<p>{props.name}</p>
 			<div className="item-prices">
 				<div className="item-price-new">
