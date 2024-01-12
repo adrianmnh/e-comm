@@ -4,6 +4,7 @@
 	padding: 16px;
 	/* box-shadow: 0 5px 10px -2px black; */
 	box-shadow: 0 1px 3px -2px black;
+	align-items: center;
 }
 
 .navbar-logo{
@@ -15,7 +16,7 @@
 
 .navbar-logo p {
 	color: #171717;
-	font-size: 38px;
+	font-size: 43px;
 	text-decoration: none;
 }
 
@@ -70,7 +71,12 @@
 	background: #f3f3f3;
 }
 
-.navbar-login-cart .navbar-cart-count {
+.navbar-login-cart img {
+	/* width: 42px;
+	height: 42px; */
+}
+
+.navbar-cart-count {
 	width: 22px;
 	height: 22px;
 	display:flex;
@@ -84,5 +90,124 @@
 	color: white;
 }
 
+.navbar-dropdown {
+	display: none;
+}
+
+@media(max-width: 1280px){
+	.navbar{
+		padding: 12px 50px;
+	}
+
+	.navbar-logo img {
+		width: 40px;
+	}
+
+	.navbar-logo p {
+		font-size: 25px;
+	}
+
+	.navbar-menu {
+		gap: 30px;
+		font-size: 16px;
+	}
+
+	.navbar-login-cart {
+		gap: 30px;
+	}
+
+	.navbar-login-cart button {
+		width: 120px;
+		height: 45px;
+		font-size: 16px;
+	}
+
+	.navbar-login-cart {
+		transform: scale(.9);
+	}
+
+	.navbar-cart-count {
+		margin-left: -40px;
+		font-size: 12px;
+	}
+}
+
+@media(max-width: 1024px){
+	.navbar {
+		padding: 12px 30px;
+	}
+
+	.navbar-menu {
+		gap: 25px;
+		font-size: 14px;
+	}
+
+	.navbar-login-cart button {
+		width: 80px;
+		height: 35px;
+		font-size: 14px;
+	}
+
+	.navbar-login-cart img {
+		width: 30px;
+		height: 30px;
+	}
+
+	.navbar-cart-count {
+		width: 18px;
+		height: 18px;
+	}
+}
+
+@media(max-width: 800px){
+	.navbar {
+		padding: 10px 0px;
+	}
+
+	.navbar-dropdown {
+		display: block;
+		width: 25px;
+		rotate: -90deg;
+		transition: 0.5s;
+	}
+
+	.navbar-menu {
+		display: none;
+		height: 80px;
+		width: 100%;
+		position: absolute;
+		background: white;
+		justify-content: center;
+		top: 50px;
+	}
+
+	.navbar-menu-visible {
+		display: flex;
+	}
+
+	.navbar-dropdown.open {
+		transform: rotate(90deg);
+	}
+}
+
+@media(max-width: 500px){
+	.navbar {
+		padding: 8px 0px;
+		gap: 0;
+	}
+
+	.navbar-logo {
+		transform: scale(0.8);
+	}
+
+	.navbar-menu {
+		height: 70px;
+		top: 50px;
+	}
+
+	.navbar-login-cart {
+		transform: scale(.8);
+	}
+}
 
 
