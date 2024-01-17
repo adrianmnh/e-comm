@@ -1,3 +1,4 @@
+import './CSS/Shop.css'
 import React from 'react'
 import Hero from '../Components/Hero/Hero'
 import Popular from '../Components/Popular/Popular'
@@ -7,12 +8,12 @@ import NewsLetter from '../Components/NewsLetter/NewsLetter'
 
 const Shop = () => {
 	return (
-		<div>
+		<div className="shop">
 			<Hero />
 			<Popular/>
-			<Offers/>
-			<NewCollections/>
-			<NewsLetter/>
+			{/* <Offers/> */}
+			{/* <NewCollections/> */}
+			{/* <NewsLetter/> */}
 		</div>
 	)
 }

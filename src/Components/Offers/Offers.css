@@ -1,6 +1,6 @@
 .offers {
 	width: 65%;
-	height: 60vh;
+	height: 65vh;
 	display: flex;
 	margin: auto;
 	padding: 0px 140px;
@@ -48,4 +48,6 @@
 	padding-top: 50px;
 }
 
+@media(max-width: 800px) {
 
+}
