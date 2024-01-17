@@ -53,10 +53,11 @@
 @media(max-width: 1024px){
 	.popular {
 		height: 80vh;
-		margin-top: 5%;
+		margin-top: 4%;
 	}
 
 	.popular h1 {
+		margin-top: 5%;
 		font-size: 30px;
 	}
 
@@ -96,6 +97,8 @@
 @media(max-width: 500px){
 	.popular {
 		height: 90vh;
+		margin-top: 15%;
+		/* justify-content: center; */
 	}
 
 	.popular-item {
