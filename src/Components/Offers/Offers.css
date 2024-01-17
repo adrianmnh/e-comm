@@ -146,8 +146,8 @@
 	.offers {
 		padding: 0 30px;
 		margin-bottom: 50px;
-		height: 25vh;
-		width: 80vw;
+		height: 25dvh;
+		width: 80dvw;
 	}
 
 	.offers-left {

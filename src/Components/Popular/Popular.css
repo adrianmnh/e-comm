@@ -27,7 +27,6 @@
 	gap: 30px;
 }
 
-
 @media(max-width: 1280px){
 	.popular {
 		height: 85vh;
@@ -75,7 +74,7 @@
 
 @media(max-width: 800px){
 	.popular {
-		height: 76vh;
+		height: 76dvh;
 		margin-top: 11vh;
 	}
 
@@ -96,7 +95,7 @@
 
 @media(max-width: 500px){
 	.popular {
-		height: 90vh;
+		height: 90dvh;
 		margin-top: 15%;
 		/* justify-content: center; */
 	}
