@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
 import './Navbar.css'
 import logo from '../Assets/logo.png'
-import cart_icon from '../Assets/cart_icon.png'
+import cart_icon from '../Assets/shopping_cart_icon.png'
 import { Link, useLocation } from 'react-router-dom'
 import { ShopContext } from '../../Context/ShopContext'
 import dropdown_icon from '../Assets/navbar_dropdown_icon.png'
@@ -80,10 +80,20 @@ const Navbar = () => {
 				</ul>
 
 				<div className="navbar-login-cart">
+					<div className="navbar-login">
+						<Link to='/login'><button>Login</button></Link>
+					</div>
+					<div className="navbar-cart">
+						<Link to='/cart'><img src={cart_icon} alt="" /></Link>
+						<div className="navbar-cart-count">{getTotalCartItems()}</div>
+					</div>
+				</div>
+
+				{/* <div className="navbar-login-cart">
 					<Link to='/login'><button>Login</button></Link>
 					<Link to='/cart'><img src={cart_icon} alt="" /></Link>
 					<div className="navbar-cart-count">{getTotalCartItems()}</div>
-				</div>
+				</div> */}
 
 			</div>
 			<div className="navbar-placeholder"></div>
