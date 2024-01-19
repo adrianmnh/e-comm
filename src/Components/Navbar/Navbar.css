@@ -1,6 +1,6 @@
 :root {
-	--navbar-height: min(5.2svh, 5.2svw);
-	--navbar-padding: 1.3svh;
+	--navbar-height: min(4.1svh, 4.1svw);
+	--navbar-padding: 1.15svh;
 }
 
 .navbar {
@@ -32,12 +32,13 @@
 }
 
 .navbar-logo img {
-	width: min(4.5svh, 4.5svw);
+	width: min(4.2svh, 4.2svw);
 }
 
 .navbar-logo p {
 	color: #171717;
-	font-size: min(3.05svh, 3.05svw);
+	margin-top: auto;
+	font-size: min(2.65svh, 2.65svw);
 	/* font-weight: 600; */
 	text-decoration: none;
 }
@@ -49,7 +50,7 @@
 	/* gap: 50px; */
 	gap: 4svw;
 	color: #626262;
-	font-size: min(1.9svw, 1.8svh);
+	font-size: min(1.7svw, 1.6svh);
 	font-weight: 500;
 	padding-right: 2svw;
 
@@ -89,8 +90,8 @@
 }
 
 .navbar-login button {
-	height: min(5.2svh, 5.2svw);
-	width: min(12svw, 15svh);
+	height: min(4.8svh, 5.2svw);
+	width: min(13svw, 14svh);
 	outline: none;
 	border: 1px solid #7a7a7a;
 	border-radius: 6svw;
@@ -135,6 +136,41 @@
 
 .navbar-dropdown {
 	display: none;
+}
+
+@media(min-width: 2560px){
+
+	:root {
+		--navbar-height: min(3.4svh, 3.4svw);
+		--navbar-padding: 1.0svh;
+	}
+
+	.navbar {
+		padding: var(--navbar-padding) 0px;
+		height: var(--navbar-height);
+	}
+
+	.navbar-placeholder {
+		height: calc(var(--navbar-height) + 2*var(--navbar-padding));
+	}
+
+	.navbar-menu {
+		font-size: min(1.45svw, 1.35svh);
+		padding-right: 0%;
+	}
+
+	.navbar-logo img {
+		width: min(3.7svh, 3.7svw);
+	}
+
+	.navbar-logo p {
+		font-size: min(2.45svh, 2.45svw);
+		margin-top: 1%;
+	}
+
+	.navbar-login-cart {
+		transform: scale(.85);
+	}
 }
 
 @media(max-width: 1280px){
@@ -226,8 +262,6 @@
 	.navbar-cart img {
 		width: 32px;
 	}
-
-
 }
 
 @media(max-width: 800px){
