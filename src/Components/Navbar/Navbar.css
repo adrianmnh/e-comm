@@ -77,10 +77,10 @@
 .navbar-login-cart {
 	display: flex;
 	gap: 3svh;
-	padding-right: 1vw;
 	/* background: blue; */
 	align-content: center;
 	justify-content: center;
+	/* padding-right: 1vw; */
 }
 
 .navbar-login {
@@ -201,7 +201,7 @@
 	}
 
 	.navbar {
-		padding: var(--navbar-padding) 50px;
+		padding: var(--navbar-padding);
 		height: var(--navbar-height);
 	}
 
@@ -212,7 +212,7 @@
 	.navbar-menu {
 		gap: 30px;
 		font-size: 17px;
-		/* padding-right: 5%; */
+		padding-right: 3vw;
 	}
 
 	.navbar-logo img {
@@ -228,8 +228,8 @@
 		all: unset;
 		display: flex;
 		align-items: center;
-		gap: 15%;
-		padding-right: 10%;
+		gap: 3vw;
+		padding-right: 2vw;
 	}
 
 	.navbar-cart-count {
@@ -272,7 +272,7 @@
 	}
 
 	.navbar {
-		padding: var(--navbar-padding) 30px;
+		padding: var(--navbar-padding) 0px;
 		height: var(--navbar-height);
 	}
 
@@ -327,6 +327,11 @@
 		transform: rotate(90deg);
 	}
 
+	.navbar-login-cart {
+		gap: 18%;
+		padding-right: 2%;
+	}
+
 	.navbar-login button {
 		font-size: 15px;
 		height: 43px;
@@ -336,12 +341,6 @@
 	.navbar-cart {
 		transform: scale(1.05);
 	}
-
-	.navbar-login-cart {
-		gap: 18%;
-		padding-right: 13%;
-	}
-
 }
 
 @media(max-width: 550px){
