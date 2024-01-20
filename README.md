@@ -1,6 +1,6 @@
 # E-Commerce Front End Project
 
-(https://github.com/adrianmnh/e-commerce)[Project Management]
+('https://github.com/users/adrianmnh/projects/3')[Project Management]
 
 ### `Features`:
 
@@ -9,4 +9,4 @@
 - [X] Route redirection for invalid paths to a custom 404 page
 - [X] Dynamic routing for different product categories (Men, Women, Kids)
 - [X] Product detail page routing based on unique product IDs
-- [X] Dedicated routes for Cart and Login/Signup pages
+- [X] Dedicated routes for Cart and Login/Signup pa
