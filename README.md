@@ -1,6 +1,6 @@
 # E-Commerce Front End Project
 
-('https://github.com/users/adrianmnh/projects/3')[Project Management]
+## (Project Management)[https://github.com/users/adrianmnh/projects/3]
 
 ### `Features`:
 
