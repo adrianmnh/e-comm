@@ -19,6 +19,13 @@ const Footer = () => {
 				<li>About</li>
 				<li>Contact</li>
 			</ul>
+			{/* <div className="footer-links">
+				<p>Company</p>
+				<p>Products</p>
+				<p>Offices</p>
+				<p>About</p>
+				<p>Contact</p>
+			</div> */}
 			<div className="footer-social-icon">
 				<div className="footer-icons-container">
 					<img src={instagram_icon} alt="" />
@@ -30,7 +37,7 @@ const Footer = () => {
 					<img src={whatsapp_icon} alt="" />
 				</div>
 			</div>
-			
+
 			<div className="footer-copyright">
 				<hr />
 				<p>Copyright @ 2024 - All Rights Reserved</p>
