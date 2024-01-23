@@ -32,14 +32,14 @@
 }
 
 .navbar-logo img {
-	width: min(4.2svh, 4.2svw);
+	width: min(3.9svh, 3.9svw);
 }
 
 .navbar-logo p {
 	color: #171717;
 	margin-top: auto;
-	font-size: min(2.65svh, 2.65svw);
-	/* font-weight: 600; */
+	font-size: min(2.25svh, 2.25svw);
+	font-weight: 600;
 	text-decoration: none;
 }
 

@@ -51,7 +51,7 @@
 
 @media(max-width: 1024px){
 	.popular {
-		height: 80vh;
+		/* height: 80vh; */
 		margin-top: 4%;
 	}
 
@@ -74,7 +74,8 @@
 
 @media(max-width: 800px){
 	.popular {
-		height: 76dvh;
+		/* height: 76dvh; */
+		height: auto;
 		margin-top: 11vh;
 	}
 
@@ -96,7 +97,8 @@
 @media(max-width: 500px){
 	.popular {
 		height: 90dvh;
-		margin-top: 15%;
+		height: auto;
+		/* margin-top: 15%; */
 		/* justify-content: center; */
 	}
 

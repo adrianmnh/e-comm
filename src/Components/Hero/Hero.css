@@ -1,5 +1,4 @@
 .hero {
-	/* height: 90vh; */
 	height: 95vh;
 	background: linear-gradient(180deg, #fde1ff, #e1ffea22 90%);
 	display: flex;
@@ -31,7 +30,7 @@
 	gap: min(1.2svh, 1.3svw);
 	line-height: 1.1;
 
-	padding-left: 7%;
+	padding-left: 8%;
 }
 
 .hero-left-inner h2 {
@@ -224,9 +223,7 @@
 	}
 
 	.hero {
-		border: 1px solid red;
-		/* align-items: flex-start;
-		justify-content: flex-start; */
+
 	}
 
 	.hero-left {
@@ -235,7 +232,6 @@
 	}
 
 	.hero-left-inner {
-		border: 1px solid yellow;
 		padding: 0 5%;
 	}
 
