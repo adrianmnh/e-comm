@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import './CSS/Product.css'
 import { ShopContext } from '../Context/ShopContext';
 import { useParams } from 'react-router-dom';
 import Breadcrum from '../Components/Breadcrum/Breadcrum';
@@ -11,7 +12,7 @@ const Product = () => {
 	const {productId} = useParams();
 	const product = all_product.find((e)=> e.id === Number(productId));
 	return (
-		<div>
+		<div className="product">
 			<Breadcrum product={product} />
 			<ProductDisplay product={product} />
 			<DescriptionBox />
