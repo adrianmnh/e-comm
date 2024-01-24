@@ -1,5 +1,20 @@
+@import '../../index.css';
+
 .descriptionbox {
-	margin: 120px 170px;
+	display: flex;
+	/* margin: 120px 170px; */
+
+	flex-direction: column;
+
+	align-content: center;
+	/* background: red; */
+
+	width: fit-content;
+	max-width: calc(var(--productpage-width) - 100px);
+	margin: 120px auto;
+
+	padding: 0 3%;
+
 }
 
 .descriptionbox-navigator {
@@ -23,10 +38,38 @@
 }
 
 .descriptionbox-description {
-	display: flex;
-	flex-direction: column;
+	/* display: flex; */
+	/* flex-direction: column; */
 	gap: 25px;
 	border: 1px solid #d0d0d0;
 	padding: 48px;
 	padding-bottom: 60px;
+	/* width: 80%; */
+}
+
+@media (max-width: 1280px) {
+	.descriptionbox {
+		margin: 60px;
+	}
+
+	.descriptionbox-description {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 800px) {
+	.descriptionbox {
+		margin: 30px 15px;
+	}
+
+	.descriptionbox-nav-box {
+		width: calc(100% / 2);
+		height: 50px;
+		font-size: 14px;
+	}
+
+	.descriptionbox-description {
+		padding: 24px 30px;
+		font-size: 12px;
+	}
 }
