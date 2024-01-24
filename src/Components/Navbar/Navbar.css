@@ -1,21 +1,29 @@
 :root {
 	--navbar-height: min(4.1svh, 4.1svw);
-	--navbar-padding: 1.15svh;
+	/* --navbar-padding: 1.15svh; */
+	--navbar-padding: 17px;
 }
 
 .navbar {
 	display: flex;
-	justify-content: space-around;
-	padding: var(--navbar-padding) 0;
+	/* justify-content: space-around; */
+	justify-content: space-between;
+	/* padding: var(--navbar-padding) 0; */
+	padding: var(--navbar-padding) 5%;
 	box-shadow: 0 1px 3px -2px black;
 	align-items: center;
 	top: 0;
-	width: 100%;
+	width: 90%;
 	height: var(--navbar-height);
 	background: #f3f3f3;
 	position: fixed!important;
 	z-index: 999;
+
+
+
 	/* background: yellow; */
+	/* max-height: 100px; */
+	/* height: 100px; */
 }
 
 .navbar-placeholder {
@@ -29,6 +37,8 @@
 	align-items: center;
 	gap: 1svw;
 	text-decoration: none;
+
+	/* background: blue; */
 }
 
 .navbar-logo img {
@@ -146,7 +156,7 @@
 	}
 
 	.navbar {
-		padding: var(--navbar-padding) 0px;
+		padding: var(--navbar-padding) 5%;
 		height: var(--navbar-height);
 	}
 
@@ -201,8 +211,10 @@
 	}
 
 	.navbar {
-		padding: var(--navbar-padding);
+		padding: var(--navbar-padding) 30px;
 		height: var(--navbar-height);
+
+		width: calc(100% - 60px);
 	}
 
 	.navbar-placeholder {
@@ -229,7 +241,7 @@
 		display: flex;
 		align-items: center;
 		gap: 3vw;
-		padding-right: 2vw;
+		/* padding-right: 2vw; */
 	}
 
 	.navbar-cart-count {
@@ -272,8 +284,10 @@
 	}
 
 	.navbar {
-		padding: var(--navbar-padding) 0px;
+		padding: var(--navbar-padding) 30px;
 		height: var(--navbar-height);
+
+		width: calc(100% - 60px);
 	}
 
 	.navbar-logo img {
@@ -329,7 +343,8 @@
 
 	.navbar-login-cart {
 		gap: 18%;
-		padding-right: 2%;
+		padding-right: 3%;
+		/* background: blue; */
 	}
 
 	.navbar-login button {
@@ -351,8 +366,10 @@
 	}
 
 	.navbar {
-		padding: var(--navbar-padding) 12px;
+		padding: var(--navbar-padding) 20px;
 		height: var(--navbar-height);
+
+		width: calc(100% - 40px);
 	}
 
 	.navbar-placeholder {
@@ -379,7 +396,8 @@
 
 	.navbar-login-cart {
 		gap: 15%;
-		padding-right: 8%;
+		/* background: blue; */
+		padding-right: 4%;
 	}
 
 	.navbar-login-cart button {
@@ -392,11 +410,15 @@
 	:root {
 		--navbar-height: 40px;
 		--navbar-padding: 12px;
+
+		/* width: calc(100% - 40px); */
 	}
 
 	.navbar {
 		padding: var(--navbar-padding) 12px;
 		height: var(--navbar-height);
+
+		width: calc(100% - 24px);
 	}
 
 	.navbar-placeholder {
@@ -423,7 +445,7 @@
 
 	.navbar-login-cart {
 		gap: 12%;
-		padding-right: 7%;
+		/* padding-right: 7%; */
 	}
 
 	.navbar-login-cart button {
@@ -445,6 +467,8 @@
 	.navbar {
 		padding: var(--navbar-padding) 10px;
 		height: var(--navbar-height);
+
+		width: calc(100% - 20px);
 	}
 
 	.navbar-placeholder {
@@ -473,7 +497,7 @@
 
 	.navbar-login-cart {
 		gap: 3%;
-		padding-right: 3%;
+		padding-right: 0%;
 	}
 
 	.navbar-login-cart button {
@@ -485,6 +509,7 @@
 
 	.navbar-cart {
 		transform: scale(.8);
+		margin-top: 5%;
 	}
 }
 
