@@ -45,7 +45,7 @@ function App() {
 					<Route path="/*" element={<Navigate to="/not_valid" />} />
 				</Routes>
 
-				{/* <Footer /> */}
+				<Footer />
 
 
 			</BrowserRouter>
