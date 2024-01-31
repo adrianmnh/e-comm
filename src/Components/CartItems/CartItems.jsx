@@ -29,6 +29,7 @@ const CartItems = () => {
 						<div className="item-right">
 
 							<p className="item-name">{e.name}</p>
+							<p className="item-remove" onClick={() => { removeItemFromCart(e.id) }}>Remove</p>
 							<p className="item-price center">${e.new_price}</p>
 							<div className="cartitems-quantity-container">
 								<button onClick={() => { removeFromCart(e.id)}} className="cartitems-quantity-change">➖</button>
@@ -36,9 +37,7 @@ const CartItems = () => {
 								<button onClick={() => { addToCart(e.id)}} className="cartitems-quantity-change">➕</button>
 							</div>
 							<p className="item-total center">${e.new_price * cartItems[e.id]}</p>
-							<p>
 							<img className="cartitems-remove-icon" src={remove_icon} onClick={() => { removeItemFromCart(e.id) }} alt="" />
-							</p>
 
 						</div>
 					</div>
