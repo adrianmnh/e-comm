@@ -281,13 +281,17 @@
 	:root {
 		--navbar-height: 45px;
 		--navbar-padding: 12px;
+		--dropdown-padding: 30px;
 	}
 
 	.navbar {
-		padding: var(--navbar-padding) 30px;
+		padding: var(--navbar-padding) var(--dropdown-padding);
 		height: var(--navbar-height);
 
-		width: calc(100% - 60px);
+		width: calc(100% - 2*var(--dropdown-padding));
+
+		/* background: blue; */
+
 	}
 
 	.navbar-logo img {
@@ -311,23 +315,22 @@
 
 	.navbar-menu {
 		visibility: hidden;
-		/* height: calc(var(--navbar-height) + 1.5*var(--navbar-padding)); */
-		width: 100%;
+		width: calc(100vw - 30px - 2*var(--dropdown-padding));
+
 		position: absolute;
-		gap: 4.8%;
+		gap: 5%;
 		background: #f3f3f3;
-		/* background: white; */
 		justify-content: center;
 		top: calc(1.4*var(--navbar-height) );
 		height: var(--navbar-height);
-		padding-right: 10%;
+
+		margin-left: calc( -1 * var(--dropdown-padding) + 0px);
+		padding-right: 50px;
 
 		opacity: 0;
 		transform: translateY(-30%);
 		transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 		z-index: 999;
-
-		/* background: #ff4141; */
 	}
 
 	.navbar-menu-visible {
@@ -363,6 +366,7 @@
 	:root {
 		--navbar-height: 40px;
 		--navbar-padding: 12px;
+		--dropdown-padding: 20px;
 	}
 
 	.navbar {
@@ -392,6 +396,9 @@
 	.navbar-menu {
 		top: calc(1.4*var(--navbar-height) );
 		height: var(--navbar-height);
+		width: calc(100vw - 20px - 2*var(--dropdown-padding));
+		margin-left: calc( -1 * var(--dropdown-padding) );
+
 	}
 
 	.navbar-login-cart {
@@ -436,7 +443,7 @@
 
 	.navbar-menu {
 		font-size: 14px;
-		padding-right: 15%;
+		/* padding-right: 15%; */
 	}
 
 	.navbar-dropdown {
@@ -496,7 +503,7 @@
 	}
 
 	.navbar-login-cart {
-		gap: 3%;
+		gap: 4vw;
 		padding-right: 0%;
 	}
 
@@ -547,8 +554,6 @@
 	}
 
 	.navbar-login-cart {
-		/* gap: 3%; */
-		/* padding-right: 3%; */
 	}
 
 	.navbar-login-cart button {
