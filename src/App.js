@@ -47,88 +47,10 @@ function App() {
 
 				<Footer />
 
-
 			</BrowserRouter>
 
     </div>
   );
 }
 
-export default App;
-
-
-
-// import React from "react";
-// import "./App.css";
-// import Navbar from "./comps/Navbar";
-// import {
-// 	BrowserRouter as Router,
-// 	Routes,
-// 	Route,
-// } from "react-router-dom";
-// import Home from "./pags";
-// import About from "./pags/about";
-// import Events from "./pags/events";
-// import AnnualReport from "./pags/annual";
-// import Teams from "./pags/team";
-// import Blogs from "./pags/blogs";
-// import SignUp from "./pags/signup";
-
-// function App() {
-// 	return (
-// 		<Router>
-// 			<Navbar />
-// 			<Routes>
-// 				<Route path="/" element={<Home />} />
-// 				<Route path="/shop" element={<Shop />} />
-// 				<Route
-// 					path="/events"
-// 					element={<Events />}
-// 				/>
-// 				<Route
-// 					path="/annual"
-// 					element={<AnnualReport />}
-// 				/>
-// 				<Route path="/team" element={<Teams />} />
-// 				<Route path="/blogs" element={<Blogs />} />
-// 				<Route
-// 					path="/sign-up"
-// 					element={<SignUp />}
-// 				/>
-// 			</Routes>
-
-// 			{/* Placeholder HTML components */}
-// 			<div className="d">
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 				<p className="test">helo</p>
-// 			</div>
-
-// 		</Router>
-// 	);
-// }
-
-// export default App;
+export default App
