@@ -9,16 +9,13 @@
 .loginsignup-container {
 	display: flex;
 	flex-direction: column;
-	/* justify-content: center; */
-	align-items: center;
+	align-items: start;
 	width: 580px;
 	height: 600px;
 	background: white;
 	margin: auto;
 	padding: 40px 60px;
 	/* border: 2px solid red; */
-
-
 }
 
 .loginsignup-container h1 {
@@ -27,10 +24,9 @@
 
 .loginsignup-fields {
 	display: flex;
+
 	flex-direction: column;
-	align-items: center;
 	width: 100%;
-	/* justify-content: center; */
 	gap: 29px;
 	margin-top: 30px;
 }
