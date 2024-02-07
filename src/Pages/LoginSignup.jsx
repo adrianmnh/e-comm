@@ -4,7 +4,7 @@ import './CSS/LoginSignup.css'
 
 const LoginSignup = () => {
 
-	const [state, setState] = useState('Sign Up');
+	const [state, setState] = useState('signup');
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
@@ -15,10 +15,7 @@ const LoginSignup = () => {
 	const [showAlert, setShowAlert] = useState(false);
 	const [agree, setAgree] = useState(false);
 
-
-	const login = async () => {
-		console.log('login', formData)
-	}
+	const styleHeight = {'--height' : state == 'signup' ? '610px' : '450px' }
 
 	const alert = (message, timeout) => {
 		setAlertMessage(message);
@@ -26,6 +23,10 @@ const LoginSignup = () => {
 		setTimeout(() => {
 			setShowAlert(false);
 		}, timeout)
+	}
+
+	const login = async () => {
+
 	}
 
 	const signup = async () => {
@@ -77,24 +78,26 @@ const LoginSignup = () => {
 	return (
 
 		<div className='loginsignup'>
-			<div className={`alert ${showAlert ? '' : 'hide'}`}>{alertMessage}</div>
-			<div className='loginsignup-container'>
-				<h1>{state}</h1>
+			<div className={`alert ${showAlert ? '' : 'hide'} ${state} `} style={styleHeight}>{alertMessage}</div>
+			<div className={`loginsignup-container ${state}`} style={styleHeight}>
+				<h1>{state === 'signup' ? 'Sign Up' : 'Login'}</h1>
 				<div className='loginsignup-fields'>
-					{ state === 'Sign Up' && <input name='username' value={formData.username} onChange={changeHandler} type='text' placeholder='Your Name' /> }
+					{ state === 'signup' && <input name='username' value={formData.username} onChange={changeHandler} type='text' placeholder='Your Name' /> }
 					<input name='email' value={formData.email} onChange={changeHandler} type='email' placeholder='Email Address'/>
 					<input name='password' value={formData.password} onChange={changeHandler} type='password' placeholder='password' />
 				</div>
-				<button onClick={ ()=> {state ==="Login" ? login() : signup()}} >Continue</button>
+				<button style={styleHeight} onClick={ ()=> {state ==="Login" ? login() : signup()}} >Continue</button>
 				{
-					state === "Sign Up" ?
-					<p className='loginsignup-login'>Already have an account? <span onClick={() => setState("Login")} >Login here</span></p> :
-					<p className='loginsignup-login'>Create an account? <span onClick={ () => setState("Sign Up")}>Click here</span></p>
+					state === "signup" ?
+					<p className='loginsignup-login'>Already have an account? <span onClick={() => setState("login")} >Login here</span></p> :
+					<p className='loginsignup-login'>Create an account? <span onClick={ () => setState("signup")}>Click here</span></p>
 				}
+				{ state === 'signup' &&
 				<div className='loginsignup-agree'>
 					<input type='checkbox' name='accept-terms' onChange={checkboxHandler}/>
 					<p>By continuing, I agree to the terms of use & policy.</p>
 				</div>
+				}
 			</div>
 
 		</div>
