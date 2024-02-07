@@ -6,13 +6,24 @@
 	padding-bottom: 100px;
 }
 
+.login {
+	/* height: 450px; */
+	/* height: var(--height); */
+}
+
+.signup {
+	/* height: 10010px; */
+	/* height: var(--height); */
+}
+
 .alert {
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 580px;
-	height: 660px;
-	margin: auto auto;
+	height: calc(var(--height) + 60px);
+	/* height: 670px; */
+	margin: auto;
 	padding: 10px 60px;
 	background: black;
 	opacity: .8;
@@ -36,16 +47,15 @@
 	flex-direction: column;
 	align-items: flex-start;
 	width: 580px;
-	height: 600px;
+	height: var(--height);
 	background: white;
 	margin: auto;
 	padding: 40px 60px;
 	border-radius: 25px;
-	/* border: 2px solid red; */
 }
 
 .loginsignup-container h1 {
-	margin: 20px 0px;
+	margin: 15px 0px;
 }
 
 .loginsignup-fields {
@@ -73,13 +83,14 @@
 
 	width: calc(100% + 2px);
 	height: 72px;
+	/* height: var(--height);; */
 	color: white;
 	background: #ff4141;
 	margin-top: 30px;
 	border: none;
 	font-size: 24px;
 	font-weight: 500;
-	cursor: pointer;
+	/* cursor: pointer; */
 }
 
 .loginsignup-login {
@@ -92,6 +103,7 @@
 .loginsignup-login span {
 	color: #ff4141;
 	font-weight: 600;
+	cursor: pointer;
 }
 
 .loginsignup-agree {
@@ -105,15 +117,28 @@
 }
 
 @media(max-width: 1280px){
+
 	.loginsignup {
 		padding-top: 50px;
 	}
 
-	.logingsignup-container {
-		width: 100px;
-		height: 50px;
-		max-height: 50px;
+	.loginsignup-container.signup {
+		height: 535px;
 	}
+
+	.alert.signup {
+		height: 595px;
+	}
+
+
+	.loginsignup-container.login {
+		height: 400px;
+	}
+
+	.alert.login {
+		height: 460px;
+	}
+
 
 	.loginsignup-container h1 {
 		margin: 10px 0px;
@@ -146,14 +171,29 @@
 	.loginsignup-container {
 		padding: 20px 45px;
 		width: 80%;
-		height: 500px;
+		/* height: 500px; */
 	}
 
 	.alert {
-		width: 80%;
-		height: 500px;
+		width: calc(80% + 30px);
 		padding: 20px 30px;
 		font-size: 18px;
+	}
+
+	.loginsignup-container.login {
+		height: 340px;
+	}
+
+	.alert.login {
+		height: 340px;
+	}
+
+	.loginsignup-container.signup {
+		height: 460px;
+	}
+
+	.alert.signup {
+		height: 460px;
 	}
 
 	.loginsignup-container h1 {
@@ -178,14 +218,31 @@
 
 @media(max-width: 500px) {
 	.loginsignup-container {
-		padding: 20px 30px;
+		padding: 25px 30px;
 		width: 80%;
 		height: 400px;
 	}
 
 	.alert {
-		height: 400px;
-		font-size: 14px;
+		width: calc(80% + 0px);
+		padding: 20px 30px;
+		font-size: 16px;
+	}
+
+	.loginsignup-container.login {
+		height: 280px;
+	}
+
+	.alert.login {
+		height: 290px;
+	}
+
+	.loginsignup-container.signup {
+		height: 380px;
+	}
+
+	.alert.signup {
+		height: 390px;
 	}
 
 	.loginsignup-container h1 {
@@ -216,6 +273,7 @@
 	.loginsignup-agree {
 		gap: 10px;
 		font-size: 2.6svw;
+		margin-top: 15px;
 	}
 
 	.loginsignup-agree input {
@@ -223,3 +281,24 @@
 		height: 10px;
 	}
 }
+
+@media(max-width: 400px){
+
+	.loginsignup-container h1 {
+		/* margin: 15px 0px; */
+		font-size: 21px;
+	}
+
+	.loginsignup-fields input{
+		font-size: 11px;
+	}
+
+	.loginsignup-container.signup {
+		height: 360px;
+	}
+
+	.alert.signup {
+		height: 370px;
+	}
+}
+
