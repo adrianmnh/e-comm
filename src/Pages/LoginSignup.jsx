@@ -57,11 +57,16 @@ const LoginSignup = () => {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(formData)
+		}).then(res => {
+			if(!res.ok){
+				throw new Error('Network error')
+			}
+			return res.json()
+		}).then(data => {
+			responseData = data;
 		}).catch(error => {
 			console.log(error)
-			return { success: false, message: 'Failed to login' }
-		}).then(res => res.json()).then(data => {
-			responseData = data;
+			responseData = { success: false, message: 'Network error. Failed to login' };
 		})
 
 		if (responseData.success) {
@@ -69,7 +74,7 @@ const LoginSignup = () => {
 			localStorage.setItem('auth-token', responseData.token)
 			window.location.replace('/')
 		} else {
-			customAlert(responseData.message, 1200)
+			customAlert(responseData.message, 1600)
 		}
 	}
 
@@ -125,11 +130,16 @@ const LoginSignup = () => {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(formData)
+		}).then(res => {
+			if(!res.ok){
+				throw new Error('Network error')
+			}
+			return res.json()
+		}).then(data => {
+			responseData = data;
 		}).catch(error => {
 			console.log(error)
-			return { success: false, message: 'Failed to signup' }
-		}).then(res => res.json()).then(data => {
-			responseData = data;
+			responseData = { success: false, message: 'Network error. Failed to Signup' };
 		})
 
 		if (responseData.success) {
@@ -137,7 +147,7 @@ const LoginSignup = () => {
 			localStorage.setItem('auth-token', responseData.token)
 			window.location.replace('/')
 		} else {
-			customAlert(responseData.message, 1200)
+			customAlert(responseData.message, 1600)
 		}
 	}
 
