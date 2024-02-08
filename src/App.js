@@ -41,8 +41,9 @@ function App() {
 
 					<Route path='/login' element={<LoginSignup />} />
 
-					<Route path='/not_valid' element={<PageNotFound />} />
-					<Route path="/*" element={<Navigate to="/not_valid" />} />
+					{/* <Route path='/not_valid' element={<PageNotFound />} /> */}
+					{/* <Route path='/not_valid' element={<PageNotFound />} /> */}
+					<Route path="/*" element={<Navigate to="/" />} />
 				</Routes>
 
 				<Footer />
