@@ -10,7 +10,6 @@ const LoginSignup = () => {
 		password: '',
 	})
 
-
 	const [alertMessage, setAlertMessage] = useState('');
 	const [showAlert, setShowAlert] = useState(false);
 	const [agree, setAgree] = useState(false);
@@ -21,9 +20,9 @@ const LoginSignup = () => {
 	// const styleHeight = { '--height': state === 'signup' ? '700px' : '470px' }
 	const styleHeight = {
 		'--height': state === 'signup'
-		  ? (showPassValidation ? '866px' : '705px')
-		  : '546px'
-	  };
+			? (showPassValidation ? '866px' : '705px')
+			: '546px'
+	};
 
 	const customAlert = (message, timeout) => {
 		setAlertMessage(message);
@@ -31,6 +30,7 @@ const LoginSignup = () => {
 		setTimeout(() => {
 			setShowAlert(false);
 		}, timeout)
+
 	}
 
 	const login = async () => {
@@ -41,7 +41,7 @@ const LoginSignup = () => {
 		}
 
 		const isEmailValid = emailRegex.test(formData.email);
-		if(!isEmailValid) {
+		if (!isEmailValid) {
 			customAlert('Email is not valid', 1200)
 			setShowEmailValidation(true);
 			return;
@@ -86,7 +86,7 @@ const LoginSignup = () => {
 	const hasSpecialChar = /[!@#$%^*?&.=_-]/.test(password);
 	const hasMinLength = password.length >= 8;
 
-	const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 	const signup = async () => {
 
@@ -97,28 +97,22 @@ const LoginSignup = () => {
 
 		// const email = 'name@example.com';
 		const isEmailValid = emailRegex.test(formData.email);
-		if(!isEmailValid) {
+		if (!isEmailValid) {
 			customAlert('Email is not valid', 1200)
 			setShowEmailValidation(true);
 			return;
 		}
 		setShowEmailValidation(false);
 
-
 		if (agree === false) {
 			customAlert('Please agree to the terms of use & policy', 1200)
 			return;
 		}
 
-
-
 		if (!hasLowerCase || !hasUpperCase || !hasNumber || !hasSpecialChar || !hasMinLength) {
 			customAlert('Password is not valid', 1200)
 			return
 		}
-
-		const email = formData.email;
-
 
 		console.log('signup', formData)
 
@@ -150,20 +144,20 @@ const LoginSignup = () => {
 	const changeHandler = (e) => {
 		if (state === 'signup' && e.target.name === 'password') {
 			setPassword(e.target.value);
-			if ( e.target.value.length !== 0 || e.target.value !=='') {
+			if (e.target.value.length !== 0 || e.target.value !== '') {
 				if (e.target.value.length === 1) {
 					setHideValidation(false);
 				}
 				setTimeout(() => {
 
-				setShowPassValidation(true);
+					setShowPassValidation(true);
 				}, 100)
 			}
 			else {
 				setShowPassValidation(false);
 
 				// setTimeout(() => {
-					setHideValidation(true);
+				setHideValidation(true);
 				// }, 0)
 			}
 		}
@@ -200,7 +194,7 @@ const LoginSignup = () => {
 						<input className='loginsignup-password-input' name='password' value={formData.password} onChange={changeHandler} type={showPassword ? 'text' : 'password'} placeholder='Password' />
 
 						{
-							state === 'signup' && password !== '' &&
+							formData.password !== '' &&
 							<button className='show-password-btn' onClick={toggleShowPassword}> {showPassword ? 'Hide' : 'Show'} </button>
 						}
 
