@@ -15,11 +15,16 @@ import womens_banner from './Components/Assets/banner_women.png';
 import kids_banner from './Components/Assets/banner_kids.png';
 
 function App() {
+	const apiUrl = process.env.REACT_APP_API_URL;
   return (
+
+
     <div className="App">
 			<BrowserRouter>
 
 				<Navbar />
+
+				{apiUrl}
 
 				<Routes>
 					<Route path='/' element={<Shop />} />
@@ -45,6 +50,7 @@ function App() {
 					{/* <Route path='/not_valid' element={<PageNotFound />} /> */}
 					<Route path="/*" element={<Navigate to="/" />} />
 				</Routes>
+
 
 				<Footer />
 
