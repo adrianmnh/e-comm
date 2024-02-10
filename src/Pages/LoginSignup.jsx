@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './CSS/LoginSignup.css'
 
 const LoginSignup = () => {
 
-	const [state, setState] = useState('signup');
+	const navigate = useNavigate();
+
+	// Now you can use the `homepage` variable in your component.
+
+	const [state, setState] = useState('login');
 	const [formData, setFormData] = useState({
 		username: '',
 		email: '',
@@ -50,7 +55,7 @@ const LoginSignup = () => {
 
 		let responseData;
 		// api/ users/ signup
-		await fetch('http://localhost:4000/login', {
+		await fetch(`${apiUrl}/login`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -58,23 +63,37 @@ const LoginSignup = () => {
 			},
 			body: JSON.stringify(formData)
 		}).then(res => {
-			if(!res.ok){
-				throw new Error('Network error')
+			console.log(res)
+			if (!res.ok) {
+				if (res.states >= 500) {
+					console.log('500: Server error')
+					throw new Error('Network error. Failed to Login');
+				}
+				if (res.status === 401) { // Unauthorized
+					console.log("401: Incorrect password")
+				}
+				if (res.status === 404) { // Unauthorized
+					console.log("404: User not found")
+				}
 			}
 			return res.json()
 		}).then(data => {
 			responseData = data;
+
 		}).catch(error => {
-			console.log(error)
-			responseData = { success: false, message: 'Network error. Failed to login' };
+			console.log('Error caught: ', error)
+			responseData = { success: false, message: error.message };
 		})
 
 		if (responseData.success) {
 			alert('Login successful');
 			localStorage.setItem('auth-token', responseData.token)
-			window.location.replace('/')
+			console.log(responseData)
+			navigate('/')
+
 		} else {
 			customAlert(responseData.message, 1600)
+			console.log(responseData)
 		}
 	}
 
@@ -123,7 +142,9 @@ const LoginSignup = () => {
 
 		let responseData;
 		// api/ users/ signup
-		await fetch('http://localhost:4000/signup', {
+		await fetch(`${apiUrl}/signup`, {
+
+			// Now you can use the `homepage` variable in your component. , {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -131,21 +152,27 @@ const LoginSignup = () => {
 			},
 			body: JSON.stringify(formData)
 		}).then(res => {
-			if(!res.ok){
-				throw new Error('Network error')
+			if (!res.ok) {
+				if (res.status === 401) { // Unauthorized
+					throw new Error('Incorrect password');
+				} else {
+					throw new Error('Network error. Failed to Signup');
+				}
 			}
 			return res.json()
 		}).then(data => {
 			responseData = data;
 		}).catch(error => {
 			console.log(error)
-			responseData = { success: false, message: 'Network error. Failed to Signup' };
+			responseData = { success: false, message: error.message };
 		})
 
 		if (responseData.success) {
 			alert('Signup successful');
 			localStorage.setItem('auth-token', responseData.token)
-			window.location.replace('/')
+			navigate('/')
+
+			// window.location.replace('/')
 		} else {
 			customAlert(responseData.message, 1600)
 		}
