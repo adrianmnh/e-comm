@@ -1,25 +1,32 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Item.css'
 import { Link } from 'react-router-dom'
+import { ShopContext } from '../../Context/ShopContext';
 
 const Item = (props) => {
 	const snapToTop = () => {
 		window.scrollTo(0, 0)
 	}
 
-	console.log(props)
+	const { toLinkName } = useContext(ShopContext);
 
-	const linkName = props.name.replace(' ', '-').toLowerCase()
+	const linkName = props.linkName
 	const productCategory = props.category
-	// const productName = props.name.toCamelCase()
 
-	const prices = () => {
 
-		return (
+	return (
+		<div className="item">
+			{/* <Link to={`/product/${props.id}`}><img onClick={snapToTop} src={props.image} alt="" /></Link> */}
+			{/* <Link to={`/product/${linkName}`}><img onClick={snapToTop} src={props.image} alt="" /></Link> */}
+			{/* <Link to={`/shop/${productCategory}/${linkName}`}><img onClick={snapToTop} src={props.image} alt="" /></Link> */}
+			<Link to={`/shop/${productCategory}/${props.linkName}`}><img onClick={snapToTop} src={props.image} alt="" /></Link>
+			<p className='item-name'>{props.name}</p>
+			{/* {prices()} */}
+
 			<div className="item-prices">
-			{ !props.sale_price ?
+			{ !props.sale_price || !props.sale_price === 0 ?
 			<div className="item-sale-price">
-				${props.retail_price.toFixed(2)}
+				${props.retail_price ? props.retail_price.toFixed(2) : null}
 			</div>
 			:
 			<>
@@ -32,18 +39,6 @@ const Item = (props) => {
 			</>
 			}
 		</div>
-		)
-
-	}
-
-	// console.log(props.keyy)
-	return (
-		<div className="item">
-			{/* <Link to={`/product/${props.id}`}><img onClick={snapToTop} src={props.image} alt="" /></Link> */}
-			{/* <Link to={`/product/${linkName}`}><img onClick={snapToTop} src={props.image} alt="" /></Link> */}
-			<Link to={`/shop/${productCategory}/${linkName}`}><img onClick={snapToTop} src={props.image} alt="" /></Link>
-			<p className='item-name'>{props.name}</p>
-			{prices()}
 
 		</div>
 	)

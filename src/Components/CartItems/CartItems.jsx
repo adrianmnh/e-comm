@@ -31,7 +31,7 @@ const CartItems = () => {
 				const cartItem = cartItems.get(e.id, 's')
 				if (!cartItem) return null
 				const price = !e.sale_price ? e.retail_price : e.sale_price;
-				const linkName = e.name.replaceAll('-.,', '').replaceAll(' ', '-').toLowerCase()
+				const linkName = e.linkName
 				const productCategory = e.category
 				if (cartItem) {
 					return (

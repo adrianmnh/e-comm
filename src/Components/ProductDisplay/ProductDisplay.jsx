@@ -6,9 +6,22 @@ import { ShopContext } from '../../Context/ShopContext';
 
 const ProductDisplay = (props) => {
 
-	const {product} = props;
-	const {addToCart} = useContext(ShopContext);
+	const { product } = props;
+	const { addToCart } = useContext(ShopContext);
 
+	const getPrices = () => {
+		if (!product.sale_price) {
+			return (<div className="productdisplay-right-price-new">${product.retail_price.toFixed(2)}</div>)
+		} else {
+			return (
+				<>
+					<div className="productdisplay-right-price-retail">${product.retail_price.toFixed(2)}</div>
+					<div className="productdisplay-right-price-sale">${product.sale_price.toFixed(2)}</div>
+				</>
+			)
+
+		}
+	}
 	return (
 		<div className="productdisplay">
 			<div className="productdisplay-left">
@@ -23,7 +36,7 @@ const ProductDisplay = (props) => {
 				</div>
 			</div>
 			<div className="productdisplay-right">
-				<h1>{product.name}</h1>
+				<h1 className='productdisplay-product-name'>{product.name}</h1>
 				<div className="productdisplay-right-stars">
 					<img src={star_icon} alt="" />
 					<img src={star_icon} alt="" />
@@ -33,8 +46,9 @@ const ProductDisplay = (props) => {
 					<p>(122)</p>
 				</div>
 				<div className="productdisplay-right-prices">
-					<div className="productdisplay-right-price-old">${product.old_price}</div>
-					<div className="productdisplay-right-price-new">${product.new_price}</div>
+
+					{getPrices()}
+
 				</div>
 				<div className="productdisplay-right-description">
 					A lightweight, usually knitted pullover sweater that is worn over a shirt, polo, or t-shirt to provide additional warmth and comfort.
@@ -49,7 +63,7 @@ const ProductDisplay = (props) => {
 						<div>XXL</div>
 					</div>
 				</div>
-				<button onClick={()=>addToCart(product.id)}>ADD TO CART</button>
+				<button onClick={() => addToCart(product.id)}>ADD TO CART</button>
 				<p className="productdisplay-right-category"><span>Category: </span>Women, T-Shirt, Crop Top</p>
 				<p className="productdisplay-right-category"><span>Tags: </span>Modern, Latest</p>
 			</div>
