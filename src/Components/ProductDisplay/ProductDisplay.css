@@ -144,6 +144,11 @@
 	cursor: pointer;
 }
 
+div.selected-size {
+	background: #ff4141;
+	color: white;
+}
+
 .productdisplay-right button {
 	padding: 20px 40px;
 	width: 200px;

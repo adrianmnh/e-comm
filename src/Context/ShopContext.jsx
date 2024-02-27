@@ -3,96 +3,182 @@ import React, { createContext, useState, useEffect } from "react";
 
 export const ShopContext = createContext(null);
 
-const getDefaultCart = () => {
-	let cart = {};
-	// for (let i = 0; i < all_product.length; i++) {
-	for (let i = 0; i < 30+1; i++) {
-		cart[i] = 0;
-	}
-	return cart;
-}
-
 const ShopContextProvider = (props) => {
 
-	const apiUrl = process.env.REACT_APP_API_ENDPOINT;
-
-	const [allProduct, setAllProduct] = useState([]);
-	const [prods, setProds] = useState([]);
-	const [cartItems, setCartItems] = useState(getDefaultCart());
+	const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
 
 	useEffect(() => {
-		fetch(`${apiUrl}/all_product`)
-		.then( res => {
-			if (!res.ok) {
-				if (res.state >= 500){
-					throw new Error('Server Error');
-				}
-				else {
-					throw new Error('Unknown Error');
-				}
-			}
-			return res.json();
-		}).then( data => {
-			setAllProduct(data.all_product)
-			return data.all_product;
-
-			// further processing of data
-		}).then( (all_product) => {
-
-			setProds(all_product.map( (product) => ({
-				id: product.id,
-				name: product.name,
-				category: product.category
-			})));
-
-		}).catch( error => {
-			console.log(error);
-		})
+		// awaitFetchAllProducts();
+		fetchAllProducts();
 	}, [])
 
+	const toLinkName = (name) => {
+		return name.replaceAll('-', ' ').trim().replaceAll(/\s+/g, '-').toLowerCase();
+	}
+
+	const [allProduct, setAllProduct] = useState(new Map());
+
+	const [linkNameMap, setLinkNameMap] = useState(new Map());
+
+	const getDefaultCart = () => {
+		if (localStorage.getItem('cart')) {
+			// let cart = JSON.parse(localStorage.getItem('cart'));
+			// console.log('Cart from local storage: ', cart)
+			// return new Map(cart);
+			const cartItemsArray = JSON.parse(localStorage.getItem('cart'));
+			const cart = new Map(cartItemsArray.map(([key, value]) => [key, new Map(value)]));
+			return cart;
+		}
+		return new Map();
+
+	}
+
+	const [cartItems, setCartItems] = useState(getDefaultCart());
+
+	const [totalCartAmount, setTotalCartAmount] = useState(0);
 	useEffect(() => {
-		console.log(prods)
-		prods.length === 0 ? console.log('No products found') : console.log('Products found');
-	}, [prods])
+		setTotalCartAmount(getTotalCartAmount());
+	}, [allProduct, cartItems]);
 
+	useEffect(() => {
+		handleCartChanges();
+	}, [cartItems])
 
-
-	const addToCart = (itemId) => {
-		setCartItems((prev) => ({...prev, [itemId] : prev[itemId] + 1}))
-		console.log(cartItems)
+	const handleCartChanges = () => {
+		console.log('Cart items changed: ', cartItems);
+		const cartItemsArray = Array.from(cartItems, ([key, value]) => [key, Array.from(value)]);
+		localStorage.setItem('cart', JSON.stringify(cartItemsArray));
 	}
 
-	const removeFromCart = (itemId) => {
-		setCartItems((prev) => ({...prev, [itemId] : prev[itemId] -1}))
+	const fetchAllProducts = async () => {
+		fetch(`${apiEndpoint}/all_product`)
+			.then(res => {
+				if (!res.ok) {
+					if (res.state >= 500) {
+						throw new Error('Server Error');
+					}
+					else {
+						throw new Error('Unknown Error');
+					}
+				}
+				return res.json();
+			}).then(data => {
+
+				// console.log('All products', data.all_product)
+				const formattedData = new Map(Array.from(data.all_product, ([key, product]) => [
+					key,
+					{
+						...product,
+						id: key,
+						name: product.name.toLowerCase(),
+						linkName: `${key}-${toLinkName(product.name)}` // Assign the proper linkName value using the toLinkName function
+					}
+				]));
+
+				setLinkNameMap(new Map(Array.from(formattedData, ([key, product]) => [
+					product.linkName,
+					key
+				])));
+
+				setAllProduct(formattedData)
+
+			})
+
+			.catch(error => {
+				console.log(error);
+			})
 	}
 
-	const removeItemFromCart = (itemId) => {
-		setCartItems((prev) => ({...prev, [itemId]: 0}))
+	// const addToCart = (itemId) => {
+	// 	setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
+	// }
+
+	// const removeFromCart = (itemId) => {
+	// 	setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
+	// }
+
+	// const removeItemFromCart = (itemId) => {
+	// 	setCartItems((prev) => ({ ...prev, [itemId]: 0 }))
+	// }
+
+	const addToCart = (itemId, selectedSize) => {
+		setCartItems((prev) => {
+			const itemSizes = prev.get(itemId) || new Map();
+			const newSizeCount = (itemSizes.get(selectedSize) || 0) + 1;
+			itemSizes.set(selectedSize, newSizeCount);
+			return new Map(prev).set(itemId, itemSizes);
+		});
+	};
+
+	const removeFromCart = (itemId, selectedSize) => {
+		setCartItems((prev) => {
+			const newItems = new Map(prev)
+			const itemSizes = newItems.get(itemId);
+			if (itemSizes) {
+				const newSizes = new Map(itemSizes);
+				const newSize = newSizes.get(selectedSize) - 1;
+				if (newSize > 0) {
+					newSizes.set(selectedSize, newSize);
+				} else {
+					newSizes.delete(selectedSize);
+				}
+				newItems.set(itemId, newSizes);
+			}
+			return newItems;
+		})
 	}
+
+	const removeItemFromCart = (itemId, selectedSize) => {
+		setCartItems((prev) => {
+			const newItems = new Map(prev);
+			const newSizes = newItems.get(itemId)
+			newSizes.delete(selectedSize);
+			if( newSizes.size === 0) {
+				newItems.delete(itemId)
+			} else {
+				newItems.set(itemId, newSizes)
+			}
+			return newItems;
+		});
+	};
 
 	const getTotalCartAmount = () => {
 		let totalAmount = 0;
-		for (const item in cartItems){
-			if (cartItems[item] > 0) {
-				let itemInfo = allProduct.find((product) => product.id === Number(item));
-				// At this point, itemInfo is defined, so its properties can be safely accessed
-				totalAmount += itemInfo.new_price * cartItems[item];
+		if (allProduct.size > 0) {
+			// for (const itemId of cartItems.keys()) {
+			// 	let itemInfo = allProduct.get(itemId)
+			// 	let price = !itemInfo.sale_price ? itemInfo.retail_price : itemInfo.sale_price;
+			// 	totalAmount += price * cartItems.get(itemId);
+			// }
+			// return totalAmount;
+			for (const [itemId, sizeMap] of cartItems.entries()) {
+				console.log('Item ID: ', itemId, sizeMap);
+				let itemInfo = allProduct.get(itemId)
+				for (const [size, quantity] of sizeMap.entries()) {
+					let price = !itemInfo.sale_price ? itemInfo.retail_price : itemInfo.sale_price;
+					totalAmount += price * quantity;
+				}
+				// let price = !itemInfo.sale_price ? itemInfo.retail_price : itemInfo.sale_price;
+				// totalAmount += price * cartItems.get(itemId);
 			}
+			return totalAmount;
 		}
-		return totalAmount;
 	}
 
 	const getTotalCartItems = () => {
 		let totalItems = 0;
-		for (const item in cartItems){
-			if (cartItems[item] > 0) {
-				totalItems += cartItems[item];
+		for (const count of cartItems.values()) {
+			for (const quantity of count.values()) {
+				totalItems += quantity;
 			}
 		}
 		return totalItems;
 	}
 
-	const contextValue = {allProduct, cartItems, apiUrl, addToCart, removeFromCart, removeItemFromCart, getTotalCartAmount, getTotalCartItems};
+	const contextValue = {
+		apiEndpoint, toLinkName, allProduct, linkNameMap,
+		cartItems, addToCart, removeFromCart, removeItemFromCart, getTotalCartAmount, getTotalCartItems
+	};
 
 	return (
 		<ShopContext.Provider value={contextValue}>
