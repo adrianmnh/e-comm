@@ -8,16 +8,38 @@ import DescriptionBox from '../Components/DescriptionBox/DescriptionBox';
 import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
 
 const Product = () => {
-	const {all_product} = useContext(ShopContext);
-	const {productId} = useParams();
-	const product = all_product.find((e)=> e.id === Number(productId));
+	// const {all_product} = useContext(ShopContext);
+	const { allProduct, linkNameMap } = useContext(ShopContext);
+
+	const { productLinkName, productId } = useParams();
+
+	// const product = allProduct ? allProduct.find((e)=> e.id === Number(productId)) : null;
+
+	// let prodName = productName.replaceAll('-.,','').replaceAll('-', ' ')
+	// const product = allProduct ? allProduct.find((e)=> e.name === prodName) : null;
+
+	// const product = allProduct ? allProduct.find((e)=> e.linkName === productName) : null;
+
+
+	// allProduct is a MAP
+
+	// const product = allProduct ? allProduct.get(Number(productId)) : null;
+	// const product = allProduct ? allProduct.get(linkNameMap.get(productLinkName)) : null;
+	const product = allProduct.get(linkNameMap.get(productLinkName))
+	// console.log(product)
+
+
 	return (
-		<div className="product">
+		<>
+		{ product &&
+			<div className="product">
 			<Breadcrum product={product} />
 			<ProductDisplay product={product} />
 			<DescriptionBox />
 			<RelatedProducts />
-		</div>
+			</div>
+		}
+		</>
 	)
 }
 

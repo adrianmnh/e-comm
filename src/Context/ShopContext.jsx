@@ -45,7 +45,7 @@ const ShopContextProvider = (props) => {
 	}, [cartItems])
 
 	const handleCartChanges = () => {
-		console.log('Cart items changed: ', cartItems);
+		// console.log('Cart items changed: ', cartItems);
 		const cartItemsArray = Array.from(cartItems, ([key, value]) => [key, Array.from(value)]);
 		localStorage.setItem('cart', JSON.stringify(cartItemsArray));
 	}
@@ -112,33 +112,52 @@ const ShopContextProvider = (props) => {
 
 	const removeFromCart = (itemId, selectedSize) => {
 		setCartItems((prev) => {
-			const newItems = new Map(prev)
-			const itemSizes = newItems.get(itemId);
+			const itemSizes = prev.get(itemId);
 			if (itemSizes) {
-				const newSizes = new Map(itemSizes);
-				const newSize = newSizes.get(selectedSize) - 1;
+				const newSize = itemSizes.get(selectedSize) - 1;
 				if (newSize > 0) {
-					newSizes.set(selectedSize, newSize);
+					itemSizes.set(selectedSize, newSize);
 				} else {
-					newSizes.delete(selectedSize);
+					itemSizes.delete(selectedSize);
+					if(itemSizes.size === 0) {
+						prev.delete(itemId)
+					}
 				}
-				newItems.set(itemId, newSizes);
 			}
-			return newItems;
+			return new Map(prev);
+			// const newItems = new Map(prev)
+			// const itemSizes = newItems.get(itemId);
+			// if (itemSizes) {
+			// 	const newSizes = new Map(itemSizes);
+			// 	const newSize = newSizes.get(selectedSize) - 1;
+			// 	if (newSize > 0) {
+			// 		newSizes.set(selectedSize, newSize);
+			// 	} else {
+			// 		newSizes.delete(selectedSize);
+			// 	}
+			// 	newItems.set(itemId, newSizes);
+			// }
+			// return newItems;
 		})
 	}
 
 	const removeItemFromCart = (itemId, selectedSize) => {
 		setCartItems((prev) => {
-			const newItems = new Map(prev);
-			const newSizes = newItems.get(itemId)
-			newSizes.delete(selectedSize);
-			if( newSizes.size === 0) {
-				newItems.delete(itemId)
-			} else {
-				newItems.set(itemId, newSizes)
+			const itemSizes = prev.get(itemId);
+			itemSizes?.delete(selectedSize);
+			if (itemSizes?.size === 0) {
+			  prev.delete(itemId);
 			}
-			return newItems;
+			return new Map(prev);
+			// const newItems = new Map(prev);
+			// const newSizes = newItems.get(itemId)
+			// newSizes.delete(selectedSize);
+			// if( newSizes.size === 0) {
+			// 	newItems.delete(itemId)
+			// } else {
+			// 	newItems.set(itemId, newSizes)
+			// }
+			// return newItems;
 		});
 	};
 
@@ -152,7 +171,7 @@ const ShopContextProvider = (props) => {
 			// }
 			// return totalAmount;
 			for (const [itemId, sizeMap] of cartItems.entries()) {
-				console.log('Item ID: ', itemId, sizeMap);
+				// console.log('Item ID: ', itemId, sizeMap);
 				let itemInfo = allProduct.get(itemId)
 				for (const [size, quantity] of sizeMap.entries()) {
 					let price = !itemInfo.sale_price ? itemInfo.retail_price : itemInfo.sale_price;

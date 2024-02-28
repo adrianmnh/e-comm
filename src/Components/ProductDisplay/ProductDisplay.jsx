@@ -1,30 +1,53 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ProductDisplay.css'
 import star_icon from '../Assets/star_icon.png'
 import star_dull_icon from '../Assets/star_dull_icon.png'
 import { ShopContext } from '../../Context/ShopContext';
+import CartItems from '../CartItems/CartItems';
 
 const ProductDisplay = (props) => {
 
 	const { product } = props;
-	const { addToCart } = useContext(ShopContext);
+	const { addToCart, cartItems } = useContext(ShopContext);
 	const [selectedSize, setSelectedSize] = useState('')
+	const addToCartRef = useRef();
+
+	useEffect (() => {
+		console.log(product.inventory)
+	}, [])
+
+	const [cartErrorMsg, setCartErrorMsg] = useState('SELECT SIZE')
 
 	const navigate = useNavigate();
 	const location = useLocation();
+
+	const [noSizeHover, setNoSizeHover] = useState(false)
 
 	const sizes = ['xs', 's', 'm', 'l', 'xl', 'xxl']
 
 	const [unavailableSizes, setUnavailableSizes] = useState([])
 
+		useEffect(() => {
+		if (product) {
+			sizes.forEach(size => {
+				if (!unavailableSizes.includes(size)) {
+					// 		console.log(1)
+					const cartItemQuantity = cartItems.get(product.id)?.get(size) || 0;
+					const inventoryQuantity = product.inventory[size];
+
+					if (cartItemQuantity >= inventoryQuantity) {
+						// 			console.log(2)
+						setUnavailableSizes(prevSizes => [...prevSizes, size]);
+					}
+				}
+			});
+		}
+	}, [product, cartItems, unavailableSizes]);
+
 	useEffect(() => {
-		if(product){
-			console.log(product.inventory)
-			const availableSizes = new Map(product.inventory.fromEntries());
-			console.log(availableSizes)
-			// const unavailableSizes =
-			// setUnavailableSizes(unavailableSizes);
+		if (product) {
+			setUnavailableSizes(Object.entries(product.inventory).filter(([size, quantity]) => quantity === 0).map(([size, quantity]) => size))
 		}
 	}, [product]);
 
@@ -43,11 +66,29 @@ const ProductDisplay = (props) => {
 	}, []);
 
 	const handleAddToCart = () => {
-		if (selectedSize === '') {
-			alert('Please select a size')
-		} else {
-			addToCart(product.id, selectedSize)
+		// console.log('selectedSize: ', selectedSize)
+		console.log(unavailableSizes)
+		if (sizes.includes(selectedSize) && !unavailableSizes.includes(selectedSize)) {
+			console.log('gets here', true)
+			if (checkAvailability()) {
+				addToCart(product.id, selectedSize)
+				console.log('Added to cart complete')
+			}
 		}
+	}
+
+	const checkAvailability = () => {
+		if ((cartItems.get(product.id)?.get(selectedSize) || 0) <= product.inventory[selectedSize]) {
+			console.log(true, cartItems.get(product.id)?.get(selectedSize) || 0, 'inner check', product.inventory[selectedSize])
+			return true
+		} else if (!cartItems.get(product.id)) {
+			console.log(false, 'nothing in cart with this ID')
+			// console.log('Adding to cart')
+			return true
+		}
+		console.log(false, 'not enough in inventory')
+
+		return false
 	}
 
 	const getPrices = () => {
@@ -103,30 +144,46 @@ const ProductDisplay = (props) => {
 				<div className="productdisplay-right-size">
 					<h1>Select Size</h1>
 					<div className="productdisplay-right-sizes">
+
 						<div
-							onClick={() => handleSizeChange('xs')}
-							className={selectedSize === 'xs' ? 'selected-size' : ''}>	XS	</div>
-						<div
-							onClick={() => handleSizeChange('s')}
-							className={selectedSize === 's' ? 'selected-size' : ''}>	S	</div>
-						<div
-							onClick={() => handleSizeChange('m')}
-							className={selectedSize === 'm' ? 'selected-size' : ''}>	M	</div>
-						<div
-							onClick={() => handleSizeChange('l')}
-							className={selectedSize === 'l' ? 'selected-size' : ''}>	L	</div>
-						<div
-							onClick={() => handleSizeChange('xl')}
-							className={selectedSize === 'xl' ? 'selected-size' : ''}>	XL	</div>
-						{/* <div
-							onClick={() => handleSizeChange('XXL')}
-							className={selectedSize === 'XXL' ? 'selected-size' : ''}
+							onClick={() => !unavailableSizes.includes('xs') && handleSizeChange('xs')}
+							className={`${selectedSize === 'xs' ? 'selected-size' : ''} ${unavailableSizes.includes('xs') ? 'unavailable' : ''}`}
 						>
-							XXL
-						</div> */}
+							XS
+						</div>
+						<div
+							onClick={() => !unavailableSizes.includes('s') && handleSizeChange('s')}
+							className={`${selectedSize === 's' ? 'selected-size' : ''} ${unavailableSizes.includes('s') ? 'unavailable' : ''}`}
+						>
+							S
+						</div>
+						<div
+							onClick={() => !unavailableSizes.includes('m') && handleSizeChange('m')}
+							className={`${selectedSize === 'm' ? 'selected-size' : ''} ${unavailableSizes.includes('m') ? 'unavailable' : ''}`}
+						>
+							M
+						</div>
+						<div
+							onClick={() => !unavailableSizes.includes('l') && handleSizeChange('l')}
+							className={`${selectedSize === 'l' ? 'selected-size' : ''} ${unavailableSizes.includes('l') ? 'unavailable' : ''}`}
+						>
+							L
+						</div>
+						<div
+							onClick={() => !unavailableSizes.includes('xl') && handleSizeChange('xl')}
+							className={`${selectedSize === 'xl' ? 'selected-size' : ''} ${unavailableSizes.includes('xl') ? 'unavailable' : ''}`}
+						>
+							XL
+						</div>
 					</div>
 				</div>
-				<button onClick={() => handleAddToCart()}>ADD TO CART</button>
+				<button className={`add-to-cart-btn ${selectedSize === '' ? 'no-size-selected' : ''}`}
+					// ref={addToCartRef}
+					onMouseEnter={() => selectedSize === '' && setNoSizeHover(true)}
+					onMouseLeave={() => setNoSizeHover(false)}
+					onClick={() => handleAddToCart()}>{noSizeHover && selectedSize === '' ? 'SELECT SIZE' : 'ADD TO CART'}
+				</button>
+
 				<p className="productdisplay-right-category"><span>Category: </span>Women, T-Shirt, Crop Top</p>
 				<p className="productdisplay-right-category"><span>Tags: </span>Modern, Latest</p>
 			</div>

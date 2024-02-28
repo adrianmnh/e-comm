@@ -144,12 +144,20 @@
 	cursor: pointer;
 }
 
+
 div.selected-size {
 	background: #ff4141;
 	color: white;
 }
 
-.productdisplay-right button {
+div.unavailable {
+	background: #ebebeb;
+	color: #a8a8a8;
+	cursor: pointer;
+}
+
+/* .productdisplay-right button { */
+.add-to-cart-btn {
 	padding: 20px 40px;
 	width: 200px;
 	font-size: 16px;
@@ -160,6 +168,15 @@ div.selected-size {
 	border: none;
 	outline: none;
 	cursor: pointer;
+	transition: all .3s ease;
+}
+
+.add-to-cart-btn:active {
+	background: #ff4141a4;
+}
+
+.no-size-selected:hover {
+	background: black;
 }
 
 .productdisplay-right-category {
