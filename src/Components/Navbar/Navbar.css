@@ -51,13 +51,11 @@
 	display: flex;
 	align-items: center;
 	list-style: none;
-	/* gap: 50px; */
 	gap: 4svw;
 	color: #626262;
 	font-size: min(1.7svw, 1.6svh);
 	font-weight: 500;
 	padding-right: 2svw;
-
 }
 
 .navbar-menu li {
@@ -313,7 +311,20 @@
 	}
 
 	.navbar-cart {
-		margin-top: min(1.3svh, 0.85svw);
+		/* margin-top: min(1.3svh, 0.85svw); */
+		margin-top: 8px;
+	}
+
+	.navbar-cart-count {
+		display: flex;
+		width: 17px;
+		height: 17px;
+		margin-top: -3px;
+		margin-left: -8px;
+		border-radius: 8.5px;
+		font-size: 12px;
+		font-weight: 100;
+		text-align: center;
 	}
 
 }

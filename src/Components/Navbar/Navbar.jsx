@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { ShopContext } from '../../Context/ShopContext'
 import dropdown_menu_icon from '../Assets/navbar_dropdown.png'
 import profile_icon from '../Assets/profile_icon.png'
+import { AuthContext } from '../../Context/AuthContext'
 
 const Navbar = () => {
 	const location = useLocation();
@@ -13,6 +14,8 @@ const Navbar = () => {
 	const [menu, setMenu] = useState("shop");
 	const { getTotalCartItems } = useContext(ShopContext);
 	const [expanded, setExpanded] = useState(false);
+
+	const { logout } = useContext(AuthContext);
 
 	const menuRef = useRef();
 	const profileMenuRef = useRef();
@@ -49,9 +52,7 @@ const Navbar = () => {
 		function handleWindowResize() {
 			setWindowSize(getWindowSize());
 		}
-
 		window.addEventListener('resize', handleWindowResize);
-
 		return () => {
 			window.removeEventListener('resize', handleWindowResize);
 		};
@@ -93,10 +94,10 @@ const Navbar = () => {
 		const path = location.pathname;
 		if (path === '/') {
 			setMenu("shop");
-		} else if (path === '/mens') {
-			setMenu("mens");
-		} else if (path === '/womens') {
-			setMenu("womens");
+		} else if (path === '/men') {
+			setMenu("men");
+		} else if (path === '/women') {
+			setMenu("women");
 		} else if (path === '/kids') {
 			setMenu("kids");
 		} else {
@@ -121,19 +122,16 @@ const Navbar = () => {
 				<img className="navbar-dropdown" onClick={dropdown_toggle} src={dropdown_menu_icon} alt="" />
 				<ul ref={menuRef} className="navbar-menu">
 					<li onClick={() => { setMenu("shop") }}><Link style={linkStyle} to='/'>Shop</Link> {menu === "shop" ? <hr /> : <></>}</li>
-					<li onClick={() => { setMenu("mens") }}><Link style={linkStyle} to='/mens'>Men</Link> {menu === "mens" ? <hr /> : <></>}</li>
-					<li onClick={() => { setMenu("womens") }}><Link style={linkStyle} to='/womens'>Women</Link> {menu === "womens" ? <hr /> : <></>}</li>
+					<li onClick={() => { setMenu("men") }}><Link style={linkStyle} to='/men'>Men</Link> {menu === "men" ? <hr /> : <></>}</li>
+					<li onClick={() => { setMenu("women") }}><Link style={linkStyle} to='/shop/women'>Women</Link> {menu === "women" ? <hr /> : <></>}</li>
 					<li onClick={() => { setMenu("kids") }}><Link style={linkStyle} to='/kids'>Kids</Link> {menu === "kids" ? <hr /> : <></>}</li>
 				</ul>
 
 				<div className="navbar-login-cart">
 
 					<div className={`navbar-login`}>
-						{localStorage.getItem('auth-token') ?
-							<button onClick={() => {
-								localStorage.removeItem('auth-token')
-								window.location.replace('/')
-							}}>Logout</button> :
+						{localStorage.getItem('x-acceess-token') ?
+							<button onClick={() => logout }>Logout</button> :
 							<Link to='/login'><button>Login</button></Link>
 						}
 					</div>
@@ -148,8 +146,8 @@ const Navbar = () => {
 						<img className='navbar-profile-icon navbar-profile-dropdown' src={profile_icon} />
 						<ul ref={profileMenuRef} className={`navbar-profile-menu ${windowSize.innerWidth < 2560 && windowSize.innerWidth > 1280 ? '' : 'hide'}`}>
 							<li><Link to='/kids'>Kids menu</Link>{menu === "kids" ? <hr /> : <></>}</li>
-							<li><Link to='/mens'>Mens menu</Link>{menu === "mens" ? <hr /> : <></>}</li>
-							<li><Link to='/womens'>Shop womens</Link>{menu === "womens" ? <hr /> : <></>}</li>
+							<li><Link to='/men'>men menu</Link>{menu === "men" ? <hr /> : <></>}</li>
+							<li><Link to='/women'>Shop women</Link>{menu === "women" ? <hr /> : <></>}</li>
 							<li><Link to='/'>Account</Link>{menu === "shop" ? <hr /> : <></>}</li>
 						</ul>
 					</div>}
