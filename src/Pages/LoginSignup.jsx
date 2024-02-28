@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './CSS/LoginSignup.css'
+import { ShopContext } from '../Context/ShopContext';
+import { AuthContext } from '../Context/AuthContext';
+
 
 const LoginSignup = () => {
 
 	const navigate = useNavigate();
+
+	const { apiUrl } = useContext(ShopContext);
+	const { loginApi, signupApi } = useContext(AuthContext);
 
 	// Now you can use the `homepage` variable in your component.
 
@@ -38,7 +44,7 @@ const LoginSignup = () => {
 
 	}
 
-	const login = async () => {
+	const handleLogin = async () => {
 
 		if (!formData.email || !formData.password) {
 			customAlert('All fields are required', 1100)
@@ -53,41 +59,11 @@ const LoginSignup = () => {
 		}
 		setShowEmailValidation(false);
 
-		let responseData;
-		// api/ users/ signup
-		await fetch(`${apiUrl}/login`, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(formData)
-		}).then(res => {
-			console.log(res)
-			if (!res.ok) {
-				if (res.states >= 500) {
-					console.log('500: Server error')
-					throw new Error('Network error. Failed to Login');
-				}
-				if (res.status === 401) { // Unauthorized
-					console.log("401: Incorrect password")
-				}
-				if (res.status === 404) { // Unauthorized
-					console.log("404: User not found")
-				}
-			}
-			return res.json()
-		}).then(data => {
-			responseData = data;
-
-		}).catch(error => {
-			console.log('Error caught: ', error)
-			responseData = { success: false, message: error.message };
-		})
+		const responseData = await loginApi(formData);
 
 		if (responseData.success) {
 			alert('Login successful');
-			localStorage.setItem('auth-token', responseData.token)
+			localStorage.setItem('x-access-token', responseData.token)
 			console.log(responseData)
 			navigate('/')
 
@@ -112,7 +88,7 @@ const LoginSignup = () => {
 
 	const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-	const signup = async () => {
+	const handleSignup = async () => {
 
 		if (!formData.username || !formData.email || !formData.password) {
 			customAlert('All fields are required', 1100)
@@ -140,36 +116,11 @@ const LoginSignup = () => {
 
 		console.log('signup', formData)
 
-		let responseData;
-		// api/ users/ signup
-		await fetch(`${apiUrl}/signup`, {
-
-			// Now you can use the `homepage` variable in your component. , {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(formData)
-		}).then(res => {
-			if (!res.ok) {
-				if (res.status === 401) { // Unauthorized
-					throw new Error('Incorrect password');
-				} else {
-					throw new Error('Network error. Failed to Signup');
-				}
-			}
-			return res.json()
-		}).then(data => {
-			responseData = data;
-		}).catch(error => {
-			console.log(error)
-			responseData = { success: false, message: error.message };
-		})
+		const responseData = await signupApi(formData);
 
 		if (responseData.success) {
 			alert('Signup successful');
-			localStorage.setItem('auth-token', responseData.token)
+			localStorage.setItem('x-access-token', responseData.token)
 			navigate('/')
 
 			// window.location.replace('/')
@@ -265,7 +216,7 @@ const LoginSignup = () => {
 					}
 
 				</div>
-				<button className='submit-btn' style={styleHeight} onClick={() => { state === "login" ? login() : signup() }} id='continue-btn'>Continue</button>
+				<button className='submit-btn' style={styleHeight} onClick={() => { state === "login" ? handleLogin() : handleSignup() }} id='continue-btn'>Continue</button>
 				{
 					state === "signup" ?
 						<p className='loginsignup-login'>Already have an account? <span onClick={() => setState("login")} >Login here</span></p> :
