@@ -11,13 +11,8 @@ const ProductDisplay = (props) => {
 	const { product } = props;
 	const { addToCart, cartItems } = useContext(ShopContext);
 	const [selectedSize, setSelectedSize] = useState('')
-	const addToCartRef = useRef();
 
-	useEffect (() => {
-		console.log(product.inventory)
-	}, [])
-
-	const [cartErrorMsg, setCartErrorMsg] = useState('SELECT SIZE')
+	const [productInCart, setProductInCart] = useState(0)
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -28,16 +23,37 @@ const ProductDisplay = (props) => {
 
 	const [unavailableSizes, setUnavailableSizes] = useState([])
 
-		useEffect(() => {
+	const addToCartRef = useRef();
+
+	useEffect(() => {
+		// console.log(product.inventory)
+		// console.log(unavailableSizes)
+		countProductsInCart()
+
+	}, [])
+
+	const countProductsInCart = () => {
+		let totalCount = 0;
+		cartItems.forEach((sizes) => {
+			sizes.forEach((count) => {
+				totalCount += count;
+			})
+		})
+		setProductInCart(totalCount)
+		console.log('cartQuantity: ', totalCount)
+		return totalCount
+	}
+
+	const [btnMessage, setBtnMessage] = useState('SELECT SIZE')
+
+
+	useEffect(() => {
 		if (product) {
 			sizes.forEach(size => {
 				if (!unavailableSizes.includes(size)) {
-					// 		console.log(1)
 					const cartItemQuantity = cartItems.get(product.id)?.get(size) || 0;
 					const inventoryQuantity = product.inventory[size];
-
 					if (cartItemQuantity >= inventoryQuantity) {
-						// 			console.log(2)
 						setUnavailableSizes(prevSizes => [...prevSizes, size]);
 					}
 				}
@@ -67,17 +83,42 @@ const ProductDisplay = (props) => {
 
 	const handleAddToCart = () => {
 		// console.log('selectedSize: ', selectedSize)
-		console.log(unavailableSizes)
+		// console.log(unavailableSizes)
+
 		if (sizes.includes(selectedSize) && !unavailableSizes.includes(selectedSize)) {
 			console.log('gets here', true)
-			if (checkAvailability()) {
+			if (checkSizeAvailability()) {
 				addToCart(product.id, selectedSize)
 				console.log('Added to cart complete')
 			}
+		} else {
+			console.log('do nothing', false)
 		}
 	}
 
-	const checkAvailability = () => {
+	const checkProductAvailability = () => {
+		if (countProductsInCart() >= product.available) {
+		  return true
+		}
+		return false
+	}
+
+	useEffect(() => {
+		if (checkProductAvailability()) {
+			setBtnMessage('OUT OF STOCK')
+		}
+		else if (noSizeHover && selectedSize === '') {
+			setBtnMessage('SELECT SIZE')
+		}
+		else if (unavailableSizes.includes(selectedSize)) {
+			setBtnMessage('SIZE OUT OF STOCK')
+		}
+		else {
+			setBtnMessage('ADD TO CART')
+		}
+	}, [unavailableSizes])
+
+	const checkSizeAvailability = () => {
 		if ((cartItems.get(product.id)?.get(selectedSize) || 0) <= product.inventory[selectedSize]) {
 			console.log(true, cartItems.get(product.id)?.get(selectedSize) || 0, 'inner check', product.inventory[selectedSize])
 			return true
@@ -101,9 +142,22 @@ const ProductDisplay = (props) => {
 					<div className="productdisplay-right-price-sale">${product.sale_price.toFixed(2)}</div>
 				</>
 			)
-
 		}
 	}
+
+	const [noSizeOrUnavailable, setNoSizeOrUnavailable] = useState(false)
+
+	useEffect(() => {
+		if (selectedSize === '') {
+			setNoSizeOrUnavailable('no-size-or-unavailable-selected')
+		} else if (unavailableSizes.includes(selectedSize)) {
+			setNoSizeOrUnavailable('no-size-or-unavailable-selected')
+		} else {
+			setNoSizeOrUnavailable('')
+		}
+	}, [selectedSize, unavailableSizes])
+
+
 
 	const handleSizeChange = (size) => {
 		setSelectedSize(size)
@@ -177,11 +231,14 @@ const ProductDisplay = (props) => {
 						</div>
 					</div>
 				</div>
-				<button className={`add-to-cart-btn ${selectedSize === '' ? 'no-size-selected' : ''}`}
+				{/* <button className={`add-to-cart-btn ${selectedSize === '' ? 'no-size-selected' : ''}`} */}
+				<button className={`add-to-cart-btn ${noSizeOrUnavailable}`}
 					// ref={addToCartRef}
-					onMouseEnter={() => selectedSize === '' && setNoSizeHover(true)}
+					onMouseEnter={() => (selectedSize === '') && setNoSizeHover(true)}
 					onMouseLeave={() => setNoSizeHover(false)}
-					onClick={() => handleAddToCart()}>{noSizeHover && selectedSize === '' ? 'SELECT SIZE' : 'ADD TO CART'}
+					onClick={() => handleAddToCart()}>
+					{/* {noSizeHover && selectedSize === '' ? 'SELECT SIZE' : 'ADD TO CART'} */}
+					{btnMessage}
 				</button>
 
 				<p className="productdisplay-right-category"><span>Category: </span>Women, T-Shirt, Crop Top</p>

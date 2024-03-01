@@ -175,7 +175,7 @@ div.unavailable {
 	background: #ff4141a4;
 }
 
-.no-size-selected:hover {
+.no-size-or-unavailable-selected:hover {
 	background: black;
 }
 
