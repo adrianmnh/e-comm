@@ -5,10 +5,20 @@ export const AuthContext = createContext(null)
 
 const AuthContextProvider = (props) => {
 
-	const { apiUrl } = useContext(ShopContext);
+	const { apiEndpoint } = useContext(ShopContext);
+
+	const [userIsLoggedIn, setUserIsLoggedIn] = useState();
+
+	useEffect(() => {
+		const token = localStorage.getItem('x-access-token');
+		if (token) {
+			console.log('Token found')
+			setUserIsLoggedIn(true);
+		}
+	}, [])
 
 	const loginApi = async ( formData ) => {
-		return await fetch(`${apiUrl}/login`, {
+		return await fetch(`${apiEndpoint}/login`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -24,9 +34,11 @@ const AuthContextProvider = (props) => {
 				}
 				if (res.status === 401) { // Unauthorized
 					console.log("401: Incorrect password")
+					return { success: false, message: "Incorrect password" };
 				}
 				if (res.status === 404) { // Unauthorized
 					console.log("404: User not found")
+					return { success: false, message: "User not found" };
 				}
 			}
 			return res.json()
@@ -39,7 +51,7 @@ const AuthContextProvider = (props) => {
 	}
 
 	const signupApi = async (formData) => {
-		return await fetch(`${apiUrl}/signup`, {
+		return await fetch(`${apiEndpoint}/signup`, {
 
 			// Now you can use the `homepage` variable in your component. , {
 			method: 'POST',
@@ -66,6 +78,7 @@ const AuthContextProvider = (props) => {
 	}
 
 	const logout = () => {
+		setUserIsLoggedIn(false);
 		localStorage.removeItem('x-access-token');
 		localStorage.removeItem('cart');
 		setTimeout(() => {
@@ -76,7 +89,8 @@ const AuthContextProvider = (props) => {
 
 
 	const contextValue = {
-		loginApi, signupApi, logout
+		loginApi, signupApi, logout,
+		userIsLoggedIn, setUserIsLoggedIn
 	}
 
 	return (

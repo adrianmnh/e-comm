@@ -50,6 +50,15 @@ const ShopContextProvider = (props) => {
 		localStorage.setItem('cart', JSON.stringify(cartItemsArray));
 	}
 
+	const formatProductData = (key, product) => {
+		return {
+			...product,
+			id: key,
+			name: product.name.toLowerCase(),
+			linkName: `${key}-${toLinkName(product.name)}` // Assign the proper linkName value using the toLinkName function
+		}
+	}
+
 	const fetchAllProducts = async () => {
 		fetch(`${apiEndpoint}/all_product`)
 			.then(res => {
@@ -67,13 +76,10 @@ const ShopContextProvider = (props) => {
 				// console.log('All products', data.all_product)
 				const formattedData = new Map(Array.from(data.all_product, ([key, product]) => [
 					key,
-					{
-						...product,
-						id: key,
-						name: product.name.toLowerCase(),
-						linkName: `${key}-${toLinkName(product.name)}` // Assign the proper linkName value using the toLinkName function
-					}
+					formatProductData(key, product)
 				]));
+
+				console.log('Formatted data: ', formattedData);
 
 				setLinkNameMap(new Map(Array.from(formattedData, ([key, product]) => [
 					product.linkName,
@@ -88,6 +94,35 @@ const ShopContextProvider = (props) => {
 				console.log(error);
 			})
 	}
+
+	const fetchProduct = async (productId) => {
+		return await fetch(`${apiEndpoint}/product/${productId}`)
+			.then(res => {
+				if (!res.ok) {
+					if (res.state >= 500) {
+						throw new Error('Server Error');
+					}
+					else {
+						throw new Error('Unknown Error');
+					}
+				}
+				return res.json();
+			}).then(data => {
+				setAllProduct( prev => {
+					const product = formatProductData(productId, data.product);
+					// prev.set(productId, product);
+					// console.log('all product upadted')
+					return new Map(prev).set(productId, product);
+				})
+			})
+			.catch(error => {
+				console.log(error);
+			})
+	}
+
+
+
+
 
 	// const addToCart = (itemId) => {
 	// 	setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
@@ -106,6 +141,9 @@ const ShopContextProvider = (props) => {
 			const itemSizes = prev.get(itemId) || new Map();
 			const newSizeCount = (itemSizes.get(selectedSize) || 0) + 1;
 			itemSizes.set(selectedSize, newSizeCount);
+
+			fetchProduct(itemId);
+
 			return new Map(prev).set(itemId, itemSizes);
 		});
 	};
@@ -124,14 +162,17 @@ const ShopContextProvider = (props) => {
 					}
 				}
 			}
+
+			fetchProduct(itemId);
+
 			return new Map(prev);
 			// const newItems = new Map(prev)
 			// const itemSizes = newItems.get(itemId);
 			// if (itemSizes) {
-			// 	const newSizes = new Map(itemSizes);
-			// 	const newSize = newSizes.get(selectedSize) - 1;
-			// 	if (newSize > 0) {
-			// 		newSizes.set(selectedSize, newSize);
+				// 	const newSizes = new Map(itemSizes);
+				// 	const newSize = newSizes.get(selectedSize) - 1;
+				// 	if (newSize > 0) {
+					// 		newSizes.set(selectedSize, newSize);
 			// 	} else {
 			// 		newSizes.delete(selectedSize);
 			// 	}
@@ -146,8 +187,11 @@ const ShopContextProvider = (props) => {
 			const itemSizes = prev.get(itemId);
 			itemSizes?.delete(selectedSize);
 			if (itemSizes?.size === 0) {
-			  prev.delete(itemId);
+				prev.delete(itemId);
 			}
+
+			fetchProduct(itemId);
+
 			return new Map(prev);
 			// const newItems = new Map(prev);
 			// const newSizes = newItems.get(itemId)
